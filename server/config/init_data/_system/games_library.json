@@ -1,0 +1,25 @@
+{
+  "games": [
+    {
+      "id": "game_zelda_botw",
+      "name": "塞尔达传说：荒野之息",
+      "platform": "Switch",
+      "paths": {
+        "windows": "%USERPROFILE%\\Documents\\Cemu\\mlc01\\usr\\save\\00050000\\101c9500",
+        "macos": "~/Library/Application Support/Cemu/mlc01/usr/save/00050000/101c9500",
+        "linux": "~/.local/share/Cemu/mlc01/usr/save/00050000/101c9500"
+      }
+    },
+    {
+      "id": "game_example",
+      "name": "示例游戏",
+      "platform": "Steam",
+      "paths": {
+        "windows": "%APPDATA%\\ExampleGame\\saves",
+        "macos": "~/Library/Application Support/ExampleGame/saves",
+        "linux": "~/.local/share/ExampleGame/saves"
+      }
+    }
+  ],
+  "_comment": "此文件为全局游戏路径库，用于客户端自动识别游戏路径，减少用户配置成本"
+}

@@ -2,10 +2,13 @@
 ClawSave Client - 应用入口
 """
 
+from ui.main_window import MainWindow
+
+
 def main():
     """主函数入口"""
-    print("ClawSave Client - Starting...")
-    # TODO: 实现 GUI 启动逻辑
+    app = MainWindow()
+    app.run()
 
 
 if __name__ == "__main__":
