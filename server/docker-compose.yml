@@ -1,0 +1,17 @@
+# ClawSave Server - Docker Compose Configuration
+# 服务端部署配置
+
+version: '3.8'
+
+services:
+  webdav:
+    image: hacdias/webdav:latest
+    container_name: clawsave-webdav
+    restart: unless-stopped
+    ports:
+      - "${WEBDAV_PORT:-8080}:80"
+    volumes:
+      - ./data:/data
+      - ./webdav.config.yml:/config.yml:ro
+    environment:
+      - TZ=${TZ:-Asia/Shanghai}

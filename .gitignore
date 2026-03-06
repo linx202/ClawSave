@@ -1,0 +1,30 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+venv/
+ENV/
+.venv/
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+
+# Client config (可能包含敏感信息)
+client/config.json
+
+# Claude AI 配置文件
+CLAUDE.md
+client/CLAUDE.md
+server/CLAUDE.md

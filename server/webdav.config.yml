@@ -1,0 +1,22 @@
+# ClawSave - WebDAV Server Configuration
+# https://github.com/hacdias/webdav
+
+# 服务配置
+server:
+  host: 0.0.0.0
+  port: 80
+
+# 日志配置
+log:
+  outputs:
+    - stderr
+
+# 用户认证配置 (生产环境请修改)
+auth:
+  type: basic
+  users:
+    - username: ${WEBDAV_USER}
+      password: ${WEBDAV_PASSWORD}
+
+# 存储路径配置
+scope: /data
