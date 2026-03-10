@@ -263,11 +263,6 @@ class MainWindow(ctk.CTk):
 
         AddGameDialog(self, on_success=on_success)
 
-    def _on_refresh(self):
-        """手动刷新列表"""
-        self._refresh_game_list()
-        self.status_bar.set_text("✓ 列表已刷新")
-
     def _on_settings(self):
         """打开设置"""
         def on_success():
@@ -281,9 +276,10 @@ class MainWindow(ctk.CTk):
         SettingsDialog(self, on_success=on_success)
 
     def _on_refresh(self):
-        """手动刷新列表"""
+        """手动刷新列表和连接状态"""
         self.config_manager.load()  # 重新加载配置
         self._refresh_game_list()
+        self._check_connection()  # 重新检查连接状态
         self.status_bar.set_text("✓ 列表已刷新")
 
     def _on_backup(self, game_id: str):
