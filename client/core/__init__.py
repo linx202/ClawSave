@@ -24,6 +24,8 @@ from .meta_manager import (
     validate_meta,
 )
 from .webdav_client import WebDAVClient, WebDAVError
+from .retry_handler import with_retry, RetryExhausted
+from .library_manager import LibraryManager, get_library_manager
 
 __all__ = [
     # Config
@@ -51,4 +53,10 @@ __all__ = [
     # WebDAV
     'WebDAVClient',
     'WebDAVError',
+    # Retry
+    'with_retry',
+    'RetryExhausted',
+    # Library
+    'LibraryManager',
+    'get_library_manager',
 ]

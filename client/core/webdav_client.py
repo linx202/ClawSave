@@ -15,6 +15,7 @@ import requests
 from requests.auth import HTTPBasicAuth, HTTPDigestAuth
 
 from .file_handler import expand_path
+from .retry_handler import with_retry, RetryExhausted
 
 
 class WebDAVError(Exception):
@@ -468,3 +469,69 @@ class WebDAVClient:
         finally:
             if os.path.exists(temp_path):
                 os.unlink(temp_path)
+
+    def upload_with_retry(
+        self,
+        local_path: str,
+        remote_path: str,
+        callback: Optional[Callable[[int, int], None]] = None,
+        timeout: Optional[int] = None,
+        max_retries: int = 3,
+        retry_delay: float = 1.0
+    ) -> bool:
+        """
+        带重试的上传操作。
+
+        Args:
+            local_path: 本地文件路径
+            remote_path: 远程文件路径
+            callback: 进度回调函数
+            timeout: 超时时间（秒）
+            max_retries: 最大重试次数
+            retry_delay: 重试延迟（秒）
+
+        Returns:
+            True 如果上传成功
+
+        Raises:
+            RetryExhausted: 重试次数耗尽
+            WebDAVError: 上传失败
+        """
+        @with_retry(max_retries=max_retries, retry_delay=retry_delay)
+        def _upload():
+            return self.upload(local_path, remote_path, callback, timeout)
+
+        return _upload()
+
+    def download_with_retry(
+        self,
+        remote_path: str,
+        local_path: str,
+        callback: Optional[Callable[[int, int], None]] = None,
+        timeout: Optional[int] = None,
+        max_retries: int = 3,
+        retry_delay: float = 1.0
+    ) -> bool:
+        """
+        带重试的下载操作。
+
+        Args:
+            remote_path: 远程文件路径
+            local_path: 本地文件路径
+            callback: 进度回调函数
+            timeout: 超时时间（秒）
+            max_retries: 最大重试次数
+            retry_delay: 重试延迟（秒）
+
+        Returns:
+            True 如果下载成功
+
+        Raises:
+            RetryExhausted: 重试次数耗尽
+            WebDAVError: 下载失败
+        """
+        @with_retry(max_retries=max_retries, retry_delay=retry_delay)
+        def _download():
+            return self.download(remote_path, local_path, callback, timeout)
+
+        return _download()

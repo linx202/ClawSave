@@ -27,6 +27,7 @@ from core import (
     add_backup,
     to_json,
     from_json,
+    get_library_manager,
 )
 from ui.widgets import GameCard, StatusBar, EmptyState
 from ui.dialogs import AddGameDialog, SettingsDialog, RestoreDialog
@@ -41,6 +42,9 @@ class MainWindow(ctk.CTk):
 
         # 配置管理器
         self.config_manager = ConfigManager()
+
+        # 游戏路径库管理器
+        self.library_manager = get_library_manager()
 
         # WebDAV 客户端（延迟初始化）
         self._webdav_client: Optional[WebDAVClient] = None
@@ -65,6 +69,9 @@ class MainWindow(ctk.CTk):
 
         # 加载游戏列表
         self._refresh_game_list()
+
+        # 异步加载游戏路径库
+        self._load_library_async()
 
     def _setup_ui(self):
         """构建界面"""
@@ -159,6 +166,33 @@ class MainWindow(ctk.CTk):
             )
         else:
             self.connection_label.configure(text="✗ 连接失败", text_color="#c53030")
+
+    def _load_library_async(self):
+        """异步加载游戏路径库"""
+        def load_task():
+            try:
+                client = None
+                if self.config_manager.is_user_configured():
+                    client = self._get_webdav_client()
+
+                success = self.library_manager.load(client=client, use_cache=True)
+                count = self.library_manager.count
+
+                self.after(0, lambda: self._on_library_loaded(success, count))
+            except Exception as e:
+                self.after(0, lambda: self._on_library_loaded(False, 0, str(e)))
+
+        thread = threading.Thread(target=load_task, daemon=True)
+        thread.start()
+
+    def _on_library_loaded(self, success: bool, count: int, error: str = None):
+        """路径库加载完成回调"""
+        if success:
+            self.status_bar.set_text(f"就绪 | 已加载 {count} 个游戏路径")
+        elif error:
+            self.status_bar.set_text(f"就绪 | 路径库加载失败: {error}")
+        else:
+            self.status_bar.set_text("就绪")
 
     def _get_webdav_client(self) -> WebDAVClient:
         """获取 WebDAV 客户端"""
