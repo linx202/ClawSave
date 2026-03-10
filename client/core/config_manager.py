@@ -10,8 +10,10 @@ from datetime import datetime
 from pathlib import Path
 from typing import Optional
 
-# 默认配置文件路径
-DEFAULT_CONFIG_DIR = Path.home() / ".clawsave"
+# 数据目录：项目根目录下的 data/ 文件夹
+# 获取项目根目录（client 的上级目录）
+PROJECT_ROOT = Path(__file__).parent.parent.parent
+DEFAULT_CONFIG_DIR = PROJECT_ROOT / "data"
 DEFAULT_CONFIG_PATH = DEFAULT_CONFIG_DIR / "config.json"
 
 # 配置版本

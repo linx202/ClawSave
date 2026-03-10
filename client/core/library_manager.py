@@ -19,8 +19,10 @@ if TYPE_CHECKING:
 
 logger = getLogger(__name__)
 
-# 缓存目录
-CACHE_DIR = Path.home() / ".clawsave" / "cache"
+# 数据目录：项目根目录下的 data/ 文件夹
+PROJECT_ROOT = Path(__file__).parent.parent.parent
+DATA_DIR = PROJECT_ROOT / "data"
+CACHE_DIR = DATA_DIR / "cache"
 LIBRARY_CACHE_FILE = CACHE_DIR / "games_library.json"
 LIBRARY_META_FILE = CACHE_DIR / "library_meta.json"
 

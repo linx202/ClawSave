@@ -28,3 +28,7 @@ client/config.json
 CLAUDE.md
 client/CLAUDE.md
 server/CLAUDE.md
+
+# 本地数据目录
+data/
+
