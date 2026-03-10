@@ -33,7 +33,7 @@ cd client
 python -m venv venv
 source venv/bin/activate  # Windows: venv\Scripts\activate
 pip install -r requirements.txt
-python src/main.py
+python main.py  # 或使用 CLI: python cli.py
 ```
 
 ## 项目结构
@@ -84,7 +84,7 @@ cd client
 python -m venv venv
 source venv/bin/activate  # Windows: venv\Scripts\activate
 pip install -r requirements.txt
-python src/main.py
+python main.py  # Or use CLI: python cli.py
 ```
 
 ## Project Structure
