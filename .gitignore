@@ -32,3 +32,8 @@ server/CLAUDE.md
 # 本地数据目录
 data/
 
+# PyInstaller 打包输出
+client/build/
+client/dist/
+*.spec
+
