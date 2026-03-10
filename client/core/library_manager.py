@@ -165,6 +165,11 @@ class LibraryManager:
             return []
 
         query_lower = query.lower()
+
+        # 空查询返回空列表
+        if not query_lower:
+            return []
+
         results: List[tuple] = []
 
         for game in self._library:
