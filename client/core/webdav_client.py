@@ -162,7 +162,7 @@ class WebDAVClient:
             WebDAVError: 上传失败
         """
         local_path = expand_path(local_path)
-        remote_path = self._normalize_path(remote_path)
+        remote_path = self._normalize_path(remote_path, is_dir=False)
 
         if not os.path.exists(local_path):
             raise WebDAVError(f"本地文件不存在: {local_path}")
@@ -177,12 +177,29 @@ class WebDAVClient:
             url = self._get_url(remote_path)
             file_size = os.path.getsize(local_path)
 
+            # 使用流式上传，支持进度回调
+            class ProgressReader:
+                """带进度回调的文件读取器"""
+                def __init__(self, file, size, cb):
+                    self.file = file
+                    self.size = size
+                    self.callback = cb
+                    self.uploaded = 0
+
+                def read(self, chunk_size=8192):
+                    chunk = self.file.read(chunk_size)
+                    if chunk:
+                        self.uploaded += len(chunk)
+                        if self.callback:
+                            self.callback(self.uploaded, self.size)
+                    return chunk
+
             with open(local_path, 'rb') as f:
-                r = self.session.put(url, data=f, timeout=timeout)
+                progress_reader = ProgressReader(f, file_size, callback)
+                headers = {'Content-Length': str(file_size)}
+                r = self.session.put(url, data=progress_reader, headers=headers, timeout=timeout)
 
             if r.status_code in (200, 201, 204):
-                if callback:
-                    callback(file_size, file_size)
                 return True
             else:
                 raise WebDAVError(f"上传失败: {local_path} -> {remote_path}, 状态码: {r.status_code}")
