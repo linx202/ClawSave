@@ -6,3 +6,6 @@ customtkinter>=5.2.0
 
 # HTTP Client
 requests>=2.31.0
+
+# 打包工具 (可选)
+pyinstaller>=6.0.0
