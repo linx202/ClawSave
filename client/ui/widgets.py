@@ -242,14 +242,10 @@ class StatusBar(ctk.CTkFrame):
             command=self._on_cancel_click
         )
 
-    def set_text(self, text: str, show_time: bool = False):
-        """设置状态文本"""
+    def set_text(self, text: str, show_time: bool = True):
+        """设置状态文本（默认显示时间）"""
         self.status_label.configure(text=text)
         if show_time:
-            from datetime import datetime
-            now = datetime.now().strftime("%H:%M:%S")
-            self.time_label.configure(text=now)
-        elif "完成" in text or "已取消" in text:
             from datetime import datetime
             now = datetime.now().strftime("%H:%M:%S")
             self.time_label.configure(text=now)

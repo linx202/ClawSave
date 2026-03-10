@@ -91,14 +91,30 @@ class MainWindow(ctk.CTk):
         )
         title_label.grid(row=0, column=0, sticky="w")
 
+        # 右侧按钮区域
+        right_frame = ctk.CTkFrame(header_frame, fg_color="transparent")
+        right_frame.grid(row=0, column=1, sticky="e", padx=(10, 0))
+        header_frame.grid_columnconfigure(1, weight=1)
+
+        # 刷新按钮
+        refresh_btn = ctk.CTkButton(
+            right_frame,
+            text="🔄",
+            width=40,
+            fg_color="transparent",
+            border_width=0,
+            command=self._on_refresh
+        )
+        refresh_btn.pack(side="left", padx=(0, 10))
+
         # 连接状态
         self.connection_label = ctk.CTkLabel(
-            header_frame,
+            right_frame,
             text="",
             font=ctk.CTkFont(size=11),
             text_color="gray"
         )
-        self.connection_label.grid(row=0, column=2, sticky="e", padx=(10, 0))
+        self.connection_label.pack(side="left")
 
         # 检查连接状态
         self._check_connection()
@@ -212,6 +228,9 @@ class MainWindow(ctk.CTk):
             widget.destroy()
         self.game_cards.clear()
 
+        # 重新加载配置（确保获取最新数据）
+        self.config_manager.load()
+
         games = self.config_manager.list_games()
 
         if not games:
@@ -239,9 +258,15 @@ class MainWindow(ctk.CTk):
         """添加游戏"""
         def on_success(game):
             self._refresh_game_list()
-            self.status_bar.set_text(f"已添加: {game['name']}")
+            # 显示更明显的成功提示
+            self.status_bar.set_text(f"✓ 已添加游戏: {game['name']}，列表已更新")
 
         AddGameDialog(self, on_success=on_success)
+
+    def _on_refresh(self):
+        """手动刷新列表"""
+        self._refresh_game_list()
+        self.status_bar.set_text("✓ 列表已刷新")
 
     def _on_settings(self):
         """打开设置"""
@@ -254,6 +279,12 @@ class MainWindow(ctk.CTk):
             self._check_connection()
 
         SettingsDialog(self, on_success=on_success)
+
+    def _on_refresh(self):
+        """手动刷新列表"""
+        self.config_manager.load()  # 重新加载配置
+        self._refresh_game_list()
+        self.status_bar.set_text("✓ 列表已刷新")
 
     def _on_backup(self, game_id: str):
         """备份游戏"""
@@ -478,7 +509,7 @@ class MainWindow(ctk.CTk):
         if result:
             self.config_manager.remove_game(game_id)
             self._refresh_game_list()
-            self.status_bar.set_text(f"已删除: {game['name']}")
+            self.status_bar.set_text(f"✓ 已删除游戏: {game['name']}")
 
     def run(self):
         """启动应用"""

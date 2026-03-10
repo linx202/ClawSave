@@ -27,7 +27,8 @@ class AddGameDialog(ctk.CTkToplevel):
 
         self.parent = parent
         self.on_success = on_success
-        self.config_manager = ConfigManager()
+        # 使用主窗口的 ConfigManager 实例（而不是创建新的）
+        self.config_manager = parent.config_manager
         self.library_manager = get_library_manager()
 
         # 搜索防抖
@@ -42,7 +43,7 @@ class AddGameDialog(ctk.CTkToplevel):
         # 先构建 UI
         self._setup_ui()
 
-        # 居中显示并 grab
+        # 居中显示
         self.update_idletasks()
         x = parent.winfo_x() + (parent.winfo_width() - 450) // 2
         y = parent.winfo_y() + (parent.winfo_height() - 280) // 2
@@ -52,72 +53,55 @@ class AddGameDialog(ctk.CTkToplevel):
 
     def _setup_ui(self):
         """构建界面"""
-        main_frame = ctk.CTkFrame(self, fg_color="transparent")
-        main_frame.pack(fill="both", expand=True, padx=20, pady=20)
-        main_frame.grid_columnconfigure(0, weight=1)
+        # 使用 grid 布局（与 SettingsDialog 相同）
+        self.grid_columnconfigure(0, weight=1)
 
         # 游戏名称
-        name_label = ctk.CTkLabel(main_frame, text="游戏名称:", anchor="w")
-        name_label.grid(row=0, column=0, sticky="ew", pady=(0, 5))
+        ctk.CTkLabel(self, text="游戏名称:", anchor="w").grid(
+            row=0, column=0, sticky="ew", padx=20, pady=(20, 5))
 
-        self.name_entry = ctk.CTkEntry(main_frame, placeholder_text="如：塞尔达传说")
-        self.name_entry.grid(row=1, column=0, sticky="ew", pady=(0, 5))
+        self.name_entry = ctk.CTkEntry(self, placeholder_text="如：塞尔达传说")
+        self.name_entry.grid(row=1, column=0, sticky="ew", padx=20, pady=(0, 5))
         self.name_entry.bind('<KeyRelease>', self._on_name_change)
 
-        # 搜索建议区域
-        self.suggestion_frame = ctk.CTkFrame(main_frame, fg_color="transparent")
-        self.suggestion_frame.grid(row=2, column=0, sticky="ew", pady=(0, 10))
+        # 搜索建议区域（初始隐藏）
+        self.suggestion_frame = ctk.CTkFrame(self, fg_color="transparent")
 
         # 存档路径
-        path_label = ctk.CTkLabel(main_frame, text="存档路径:", anchor="w")
-        path_label.grid(row=3, column=0, sticky="ew", pady=(0, 5))
+        ctk.CTkLabel(self, text="存档路径:", anchor="w").grid(
+            row=2, column=0, sticky="ew", padx=20, pady=(10, 5))
 
-        path_frame = ctk.CTkFrame(main_frame, fg_color="transparent")
-        path_frame.grid(row=4, column=0, sticky="ew", pady=(0, 15))
+        path_frame = ctk.CTkFrame(self, fg_color="transparent")
+        path_frame.grid(row=3, column=0, sticky="ew", padx=20, pady=(0, 10))
         path_frame.grid_columnconfigure(0, weight=1)
 
-        self.path_entry = ctk.CTkEntry(path_frame, placeholder_text="如：%APPDATA%\\GameName 或 ~/Library/Application Support/GameName")
+        self.path_entry = ctk.CTkEntry(path_frame, placeholder_text="如：%APPDATA%\\GameName")
         self.path_entry.grid(row=0, column=0, sticky="ew", padx=(0, 10))
 
-        self.browse_btn = ctk.CTkButton(
-            path_frame,
-            text="浏览",
-            width=60,
-            command=self._on_browse
-        )
-        self.browse_btn.grid(row=0, column=1)
+        ctk.CTkButton(path_frame, text="浏览", width=60, command=self._on_browse).grid(
+            row=0, column=1)
 
         # 错误提示
         self.error_label = ctk.CTkLabel(
-            main_frame,
-            text="",
-            text_color="#c53030",
-            font=ctk.CTkFont(size=11),
-            anchor="w"
+            self, text="", text_color="#c53030",
+            font=ctk.CTkFont(size=11), anchor="w"
         )
-        self.error_label.grid(row=5, column=0, sticky="ew", pady=(0, 10))
+        self.error_label.grid(row=4, column=0, sticky="ew", padx=20, pady=(0, 10))
 
-        # 按钮
-        btn_frame = ctk.CTkFrame(main_frame, fg_color="transparent")
-        btn_frame.grid(row=6, column=0, sticky="e")
+        # 按钮区域
+        btn_frame = ctk.CTkFrame(self, fg_color="transparent")
+        btn_frame.grid(row=5, column=0, sticky="e", padx=20, pady=(0, 20))
 
-        cancel_btn = ctk.CTkButton(
-            btn_frame,
-            text="取消",
-            width=80,
-            fg_color="transparent",
-            border_width=1,
+        ctk.CTkButton(
+            btn_frame, text="取消", width=80,
+            fg_color="transparent", border_width=1,
             command=self.destroy
-        )
-        cancel_btn.pack(side="left", padx=(0, 10))
+        ).pack(side="left", padx=(0, 10))
 
-        confirm_btn = ctk.CTkButton(
-            btn_frame,
-            text="确认",
-            width=80,
+        ctk.CTkButton(
+            btn_frame, text="确认", width=80,
             command=self._on_confirm
-        )
-        confirm_btn.pack(side="left")
+        ).pack(side="left")
 
         # 绑定快捷键
         self.bind('<Return>', lambda e: self._on_confirm())
@@ -126,11 +110,8 @@ class AddGameDialog(ctk.CTkToplevel):
 
     def _on_name_change(self, event=None):
         """游戏名称变化时触发搜索"""
-        # 取消之前的搜索
         if self._search_after_id:
             self.after_cancel(self._search_after_id)
-
-        # 延迟搜索（防抖）
         self._search_after_id = self.after(300, self._do_search)
 
     def _do_search(self):
@@ -139,51 +120,39 @@ class AddGameDialog(ctk.CTkToplevel):
         if len(query) < 1:
             self._clear_suggestions()
             return
-
-        # 从路径库搜索
         if self.library_manager.is_loaded:
             results = self.library_manager.search(query, limit=5)
             self._show_suggestions(results)
 
     def _show_suggestions(self, games: list):
         """显示搜索建议"""
-        # 清空现有建议
         self._clear_suggestions()
-
         if not games:
             return
-
-        # 显示建议按钮
+        self.suggestion_frame.pack(fill="x", padx=20, pady=(0, 5))
         for game in games:
-            btn = ctk.CTkButton(
+            ctk.CTkButton(
                 self.suggestion_frame,
                 text=f"💡 {game.get('name', '')} ({game.get('platform', '')})",
-                fg_color="transparent",
-                text_color=("gray10", "#DCE4EE"),
-                border_width=1,
-                anchor="w",
+                fg_color="transparent", text_color=("gray10", "#DCE4EE"),
+                border_width=1, anchor="w", height=28,
                 command=lambda g=game: self._select_suggestion(g)
-            )
-            btn.pack(fill="x", pady=1)
+            ).pack(fill="x", pady=1)
 
     def _clear_suggestions(self):
         """清空搜索建议"""
         for widget in self.suggestion_frame.winfo_children():
             widget.destroy()
+        self.suggestion_frame.pack_forget()
 
     def _select_suggestion(self, game: dict):
         """选择搜索建议"""
-        # 填充名称
         self.name_entry.delete(0, "end")
         self.name_entry.insert(0, game.get('name', ''))
-
-        # 填充路径
         path = self.library_manager.get_platform_path(game)
         if path:
             self.path_entry.delete(0, "end")
             self.path_entry.insert(0, path)
-
-        # 清空建议
         self._clear_suggestions()
 
     def _on_browse(self):
@@ -201,16 +170,13 @@ class AddGameDialog(ctk.CTkToplevel):
         if not name:
             self.error_label.configure(text="请输入游戏名称")
             return
-
         if not path:
             self.error_label.configure(text="请输入存档路径")
             return
-
         if not self.config_manager.is_name_unique(name):
             self.error_label.configure(text=f"游戏名称已存在: {name}")
             return
 
-        # 验证路径
         expanded = file_handler.expand_path(path)
         if not os.path.exists(expanded):
             self.error_label.configure(text=f"路径不存在: {expanded}")
@@ -415,16 +381,17 @@ class RestoreDialog(ctk.CTkToplevel):
 
     def _setup_ui(self):
         """构建界面"""
-        main_frame = ctk.CTkFrame(self, fg_color="transparent")
-        main_frame.pack(fill="both", expand=True, padx=20, pady=20)
+        # 使用 grid 布局（与 AddGameDialog 一致）
+        self.grid_columnconfigure(0, weight=1)
 
         # 提示
-        tip_label = ctk.CTkLabel(main_frame, text="选择要恢复的存档版本:", anchor="w")
-        tip_label.pack(fill="x", pady=(0, 10))
+        tip_label = ctk.CTkLabel(self, text="选择要恢复的存档版本:", anchor="w")
+        tip_label.grid(row=0, column=0, sticky="ew", padx=20, pady=(20, 10))
 
         # 存档列表
-        self.archive_list = ctk.CTkScrollableFrame(main_frame, height=200)
-        self.archive_list.pack(fill="both", expand=True, pady=(0, 10))
+        self.archive_list = ctk.CTkScrollableFrame(self, height=200)
+        self.archive_list.grid(row=1, column=0, sticky="nsew", padx=20, pady=(0, 10))
+        self.grid_rowconfigure(1, weight=1)
 
         # 加载状态
         self.loading_label = ctk.CTkLabel(
@@ -435,57 +402,48 @@ class RestoreDialog(ctk.CTkToplevel):
         self.loading_label.pack(pady=20)
 
         # 备注编辑区
-        note_frame = ctk.CTkFrame(main_frame, fg_color="transparent")
-        note_frame.pack(fill="x", pady=(0, 10))
+        note_label = ctk.CTkLabel(self, text="备注:", anchor="w")
+        note_label.grid(row=2, column=0, sticky="ew", padx=20, pady=(10, 5))
 
-        note_label = ctk.CTkLabel(note_frame, text="备注:", anchor="w")
-        note_label.pack(fill="x")
-
-        self.note_entry = ctk.CTkEntry(note_frame, placeholder_text="为此存档添加备注...")
-        self.note_entry.pack(fill="x", pady=(5, 5))
+        self.note_entry = ctk.CTkEntry(self, placeholder_text="为此存档添加备注...")
+        self.note_entry.grid(row=3, column=0, sticky="ew", padx=20, pady=(0, 5))
         self.note_entry.bind('<KeyRelease>', self._on_note_change)
 
         self.save_note_btn = ctk.CTkButton(
-            note_frame,
+            self,
             text="保存备注",
             width=80,
             fg_color="#4a5568",
             hover_color="#2d3748",
             command=self._save_note
         )
-        self.save_note_btn.pack(anchor="e")
+        self.save_note_btn.grid(row=4, column=0, sticky="e", padx=20, pady=(0, 10))
 
         # 状态提示
         self.status_label = ctk.CTkLabel(
-            main_frame,
+            self,
             text="",
             font=ctk.CTkFont(size=11),
             anchor="w"
         )
-        self.status_label.pack(fill="x", pady=(0, 10))
+        self.status_label.grid(row=5, column=0, sticky="ew", padx=20, pady=(0, 10))
 
-        # 按钮
-        btn_frame = ctk.CTkFrame(main_frame, fg_color="transparent")
-        btn_frame.pack(fill="x")
+        # 按钮区域
+        btn_frame = ctk.CTkFrame(self, fg_color="transparent")
+        btn_frame.grid(row=6, column=0, sticky="e", padx=20, pady=(0, 20))
 
-        cancel_btn = ctk.CTkButton(
-            btn_frame,
-            text="取消",
-            width=80,
-            fg_color="transparent",
-            border_width=1,
+        ctk.CTkButton(
+            btn_frame, text="取消", width=80,
+            fg_color="transparent", border_width=1,
             command=self.destroy
-        )
-        cancel_btn.pack(side="right")
+        ).pack(side="left", padx=(0, 10))
 
         self.restore_btn = ctk.CTkButton(
-            btn_frame,
-            text="恢复",
-            width=80,
+            btn_frame, text="恢复", width=80,
             state="disabled",
             command=self._on_restore
         )
-        self.restore_btn.pack(side="right", padx=(0, 10))
+        self.restore_btn.pack(side="left")
 
         self.bind('<Escape>', lambda e: self.destroy())
 
@@ -502,6 +460,13 @@ class RestoreDialog(ctk.CTkToplevel):
 
                 # 加载存档列表
                 archive_path = f"/ClawSave/users/{user.get('username')}/{self.game_id}/archives/"
+
+                # 检查目录是否存在
+                if not client.exists(archive_path):
+                    # 目录不存在，显示空状态
+                    self.after(0, lambda: self._display_archives([]))
+                    return
+
                 items = client.list_dir(archive_path)
 
                 archives = [item for item in items if not item['is_dir'] and item['name'].endswith('.zip')]
@@ -663,7 +628,5 @@ class RestoreDialog(ctk.CTkToplevel):
     def _on_restore(self):
         """确认恢复"""
         if self.selected_archive and self.on_restore:
-            self.on_restore(self.game_id, self.selected_archive['name'])
-        self.destroy()
             self.on_restore(self.game_id, self.selected_archive['name'])
         self.destroy()
