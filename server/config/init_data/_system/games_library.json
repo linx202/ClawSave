@@ -1,25 +1,207 @@
 {
+  "version": "1.0",
+  "updated_at": "2026-03-10",
+  "_comment": "此文件为全局游戏路径库，用于客户端自动识别游戏路径，减少用户配置成本",
   "games": [
     {
-      "id": "game_zelda_botw",
+      "id": "zelda_botw",
       "name": "塞尔达传说：荒野之息",
       "platform": "Switch",
       "paths": {
-        "windows": "%USERPROFILE%\\Documents\\Cemu\\mlc01\\usr\\save\\00050000\\101c9500",
+        "windows": "%APPDATA%\\Cemu\\mlc01\\usr\\save\\00050000\\101c9500",
         "macos": "~/Library/Application Support/Cemu/mlc01/usr/save/00050000/101c9500",
         "linux": "~/.local/share/Cemu/mlc01/usr/save/00050000/101c9500"
       }
     },
     {
-      "id": "game_example",
-      "name": "示例游戏",
+      "id": "zelda_totk",
+      "name": "塞尔达传说：王国之泪",
+      "platform": "Switch",
+      "paths": {
+        "windows": "%APPDATA%\\Cemu\\mlc01\\usr\\save\\00050000\\101c9501",
+        "macos": "~/Library/Application Support/Cemu/mlc01/usr/save/00050000/101c9501",
+        "linux": "~/.local/share/Cemu/mlc01/usr/save/00050000/101c9501"
+      }
+    },
+    {
+      "id": "mario_odyssey",
+      "name": "超级马力欧：奥德赛",
+      "platform": "Switch",
+      "paths": {
+        "windows": "%APPDATA%\\Cemu\\mlc01\\usr\\save\\00050000\\101c9502",
+        "macos": "~/Library/Application Support/Cemu/mlc01/usr/save/00050000/101c9502",
+        "linux": "~/.local/share/Cemu/mlc01/usr/save/00050000/101c9502"
+      }
+    },
+    {
+      "id": "mario_kart8",
+      "name": "马力欧卡丁车8 豪华版",
+      "platform": "Switch",
+      "paths": {
+        "windows": "%APPDATA%\\Cemu\\mlc01\\usr\\save\\00050000\\101c9400",
+        "macos": "~/Library/Application Support/Cemu/mlc01/usr/save/00050000/101c9400",
+        "linux": "~/.local/share/Cemu/mlc01/usr/save/00050000/101c9400"
+      }
+    },
+    {
+      "id": "animal_crossing_nh",
+      "name": "集合啦！动物森友会",
+      "platform": "Switch",
+      "paths": {
+        "windows": "%APPDATA%\\Cemu\\mlc01\\usr\\save\\00050000\\101c9600",
+        "macos": "~/Library/Application Support/Cemu/mlc01/usr/save/00050000/101c9600",
+        "linux": "~/.local/share/Cemu/mlc01/usr/save/00050000/101c9600"
+      }
+    },
+    {
+      "id": "pokemon_scarlet",
+      "name": "宝可梦 朱",
+      "platform": "Switch",
+      "paths": {
+        "windows": "%APPDATA%\\Cemu\\mlc01\\usr\\save\\00050000\\101c9700",
+        "macos": "~/Library/Application Support/Cemu/mlc01/usr/save/00050000/101c9700",
+        "linux": "~/.local/share/Cemu/mlc01/usr/save/00050000/101c9700"
+      }
+    },
+    {
+      "id": "pokemon_violet",
+      "name": "宝可梦 紫",
+      "platform": "Switch",
+      "paths": {
+        "windows": "%APPDATA%\\Cemu\\mlc01\\usr\\save\\00050000\\101c9701",
+        "macos": "~/Library/Application Support/Cemu/mlc01/usr/save/00050000/101c9701",
+        "linux": "~/.local/share/Cemu/mlc01/usr/save/00050000/101c9701"
+      }
+    },
+    {
+      "id": "xenoblade3",
+      "name": "异度神剑3",
+      "platform": "Switch",
+      "paths": {
+        "windows": "%APPDATA%\\Cemu\\mlc01\\usr\\save\\00050000\\101c9800",
+        "macos": "~/Library/Application Support/Cemu/mlc01/usr/save/00050000/101c9800",
+        "linux": "~/.local/share/Cemu/mlc01/usr/save/00050000/101c9800"
+      }
+    },
+    {
+      "id": "smash_ultimate",
+      "name": "任天堂明星大乱斗 特别版",
+      "platform": "Switch",
+      "paths": {
+        "windows": "%APPDATA%\\Cemu\\mlc01\\usr\\save\\00050000\\101c9300",
+        "macos": "~/Library/Application Support/Cemu/mlc01/usr/save/00050000/101c9300",
+        "linux": "~/.local/share/Cemu/mlc01/usr/save/00050000/101c9300"
+      }
+    },
+    {
+      "id": "elden_ring",
+      "name": "艾尔登法环",
       "platform": "Steam",
       "paths": {
-        "windows": "%APPDATA%\\ExampleGame\\saves",
-        "macos": "~/Library/Application Support/ExampleGame/saves",
-        "linux": "~/.local/share/ExampleGame/saves"
+        "windows": "%APPDATA%\\EldenRing",
+        "macos": "~/Library/Application Support/Steam/steamapps/compatdata/1245620/pfx/drive_c/users/steamuser/AppData/Roaming/EldenRing",
+        "linux": "~/.steam/steam/steamapps/compatdata/1245620/pfx/drive_c/users/steamuser/AppData/Roaming/EldenRing"
+      }
+    },
+    {
+      "id": "dark_souls3",
+      "name": "黑暗之魂3",
+      "platform": "Steam",
+      "paths": {
+        "windows": "%APPDATA%\\DarkSoulsIII",
+        "macos": "~/Library/Application Support/Steam/steamapps/compatdata/374320/pfx/drive_c/users/steamuser/AppData/Roaming/DarkSoulsIII",
+        "linux": "~/.steam/steam/steamapps/compatdata/374320/pfx/drive_c/users/steamuser/AppData/Roaming/DarkSoulsIII"
+      }
+    },
+    {
+      "id": "sekiro",
+      "name": "只狼：影逝二度",
+      "platform": "Steam",
+      "paths": {
+        "windows": "%APPDATA%\\Sekiro",
+        "macos": "~/Library/Application Support/Steam/steamapps/compatdata/814380/pfx/drive_c/users/steamuser/AppData/Roaming/Sekiro",
+        "linux": "~/.steam/steam/steamapps/compatdata/814380/pfx/drive_c/users/steamuser/AppData/Roaming/Sekiro"
+      }
+    },
+    {
+      "id": "cyberpunk2077",
+      "name": "赛博朋克2077",
+      "platform": "Steam/GOG",
+      "paths": {
+        "windows": "%USERPROFILE%\\Saved Games\\CD Projekt Red\\Cyberpunk 2077",
+        "macos": "~/Library/Application Support/Steam/steamapps/compatdata/1091500/pfx/drive_c/users/steamuser/Saved Games/CD Projekt Red/Cyberpunk 2077",
+        "linux": "~/.steam/steam/steamapps/compatdata/1091500/pfx/drive_c/users/steamuser/Saved Games/CD Projekt Red/Cyberpunk 2077"
+      }
+    },
+    {
+      "id": "witcher3",
+      "name": "巫师3：狂猎",
+      "platform": "Steam/GOG",
+      "paths": {
+        "windows": "%USERPROFILE%\\Documents\\The Witcher 3\\gamesaves",
+        "macos": "~/Documents/The Witcher 3/gamesaves",
+        "linux": "~/.steam/steam/steamapps/compatdata/292030/pfx/drive_c/users/steamuser/Documents/The Witcher 3/gamesaves"
+      }
+    },
+    {
+      "id": "hades",
+      "name": "哈迪斯",
+      "platform": "Steam/Epic",
+      "paths": {
+        "windows": "%USERPROFILE%\\Documents\\Saved Games\\Hades",
+        "macos": "~/Library/Application Support/Steam/steamapps/compatdata/1145360/pfx/drive_c/users/steamuser/Documents/Saved Games/Hades",
+        "linux": "~/.steam/steam/steamapps/compatdata/1145360/pfx/drive_c/users/steamuser/Documents/Saved Games/Hades"
+      }
+    },
+    {
+      "id": "hollow_knight",
+      "name": "空洞骑士",
+      "platform": "Steam",
+      "paths": {
+        "windows": "%USERPROFILE%\\AppData\\LocalLow\\Team Cherry\\Hollow Knight",
+        "macos": "~/Library/Application Support/unity.Team Cherry.Hollow Knight",
+        "linux": "~/.config/unity3d/Team Cherry/Hollow Knight"
+      }
+    },
+    {
+      "id": "celeste",
+      "name": "蔚蓝",
+      "platform": "Steam",
+      "paths": {
+        "windows": "%USERPROFILE%\\AppData\\Local\\Celeste",
+        "macos": "~/Library/Application Support/Celeste",
+        "linux": "~/.local/share/Celeste"
+      }
+    },
+    {
+      "id": "stardew_valley",
+      "name": "星露谷物语",
+      "platform": "Steam",
+      "paths": {
+        "windows": "%APPDATA%\\StardewValley\\Saves",
+        "macos": "~/.config/StardewValley/Saves",
+        "linux": "~/.config/StardewValley/Saves"
+      }
+    },
+    {
+      "id": "minecraft_java",
+      "name": "我的世界 (Java版)",
+      "platform": "Minecraft",
+      "paths": {
+        "windows": "%APPDATA%\\.minecraft\\saves",
+        "macos": "~/Library/Application Support/minecraft/saves",
+        "linux": "~/.minecraft/saves"
+      }
+    },
+    {
+      "id": "minecraft_bedrock",
+      "name": "我的世界 (基岩版)",
+      "platform": "Minecraft",
+      "paths": {
+        "windows": "%LOCALAPPDATA%\\Packages\\Microsoft.MinecraftUWP_8wekyb3d8bbwe\\LocalState\\games\\com.mojang\\minecraftWorlds",
+        "macos": null,
+        "linux": null
       }
     }
-  ],
-  "_comment": "此文件为全局游戏路径库，用于客户端自动识别游戏路径，减少用户配置成本"
+  ]
 }
