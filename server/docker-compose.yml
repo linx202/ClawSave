@@ -1,8 +1,6 @@
 # ClawSave Server - Docker Compose Configuration
 # 服务端部署配置
 
-version: '3.8'
-
 services:
   webdav:
     image: hacdias/webdav:latest
@@ -15,3 +13,6 @@ services:
       - ./config/webdav.config.yml:/config.yml:ro
     environment:
       - TZ=${TZ:-Asia/Shanghai}
+      - WEBDAV_USER=${WEBDAV_USER}
+      - WEBDAV_PASSWORD=${WEBDAV_PASSWORD}
+    command: ["--config", "/config.yml"]
